@@ -43,9 +43,24 @@ const menuIcon = document.querySelector('#menu-icon');
       const closeModal = document.getElementById('closeModal');
 
       if (cards && modal && modalGallery && closeModal) {
+        document.querySelectorAll('.portfolio-card a').forEach(link => {
+          link.addEventListener('click', event => {
+            event.stopPropagation();
+          });
+        });
+
         cards.forEach(card => {
           card.addEventListener('click', () => {
-            const images = card.getAttribute('data-images').split(',');
+            const liveDemo = card.getAttribute('data-live-demo');
+            if (liveDemo) {
+              window.open(liveDemo, '_blank', 'noopener');
+              return;
+            }
+
+            const imageData = card.getAttribute('data-images');
+            if (!imageData) return;
+
+            const images = imageData.split(',');
             modalGallery.innerHTML = '';
             images.forEach(src => {
               const img = document.createElement('img');
